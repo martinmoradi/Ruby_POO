@@ -33,7 +33,7 @@ attr_accessor :weapon_level
   def initialize(name_to_save)
     super
     @weapon_level = 1
-    @life_points = 100    
+    @life_points = 100  
   end
 
   def show_state
@@ -44,7 +44,8 @@ attr_accessor :weapon_level
     rand(1..6) * @weapon_level
   end
 
-  def search_weapon(dice = rand(1..6))
+  def search_weapon
+    dice = rand(1..6)
     puts "#{@name} a trouvé une arme de niveau #{dice}"
     if dice > @weapon_level
       puts "Youhou ! Cette arme est meilleure, #{@name} la conserve !"
@@ -54,24 +55,17 @@ attr_accessor :weapon_level
     end
   end
 
-  def search_health_pack(dice = rand(1..6))
+  def search_health_pack
+    dice = rand(1..6)
     if dice == 1 
       puts "#{@name} n'a rien trouvé..."
-    elsif dice(2..5)
+    elsif (2..5).include?(dice)
       puts "#{@name} a trouvé un pack de soin : 50 PV!"
-      i = 50 
-      while i > 0 || @life_points < 100
-        i -= 1
-        @life_points += 1
-      end
+      50.times { @life_points += 1 if @life_points < 100 }
     else puts "#{@name} a trouvé un pack de soin : 80 PV!"
-      i = 80
-      while i > 0 || @life_points < 100
-        i -= 1
-        @life_points += 1
-      end
-    end
-    
-
+      80.times { @life_points += 1 if @life_points < 100 }
+    end  
   end
+
+
 end

@@ -20,13 +20,3 @@ def battle_2p
   end
 end
 
-def battle_humans
-  player1 = HumanPlayer.new("Roberto")
-  player2 = Player.new("Francesca")
-  player1.show_state
-  player2.show_state
-  player1.search_weapon
-  player1.show_state
-end
-
-battle_humans
