@@ -15,8 +15,8 @@ def full_game
 
   while new_game.is_still_ongoing?
     new_game.combat_menu
-    input = gets.chomp
-    new_game.combat_input(input)
+    new_game.combat_input
+    new_game.kill_player
     new_game.combat_defense
   end
   new_game.end_game

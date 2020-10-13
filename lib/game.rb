@@ -1,12 +1,12 @@
-
+require_relative 'player'
 
 class Game 
-  attr_accessor :human_player, :enemies
+  attr_accessor :humanplayer, :enemies
 
-  def initialize(name_to_save)
-    @humanplayer = HumanPlayer.new(name_to_save)
+  def initialize(player_name)
+    @humanplayer = HumanPlayer.new(player_name)
     @enemies = []
-    4.times { |player| @enemies << Player.new("player#{player}")}
+    4.times { |bot| @enemies << Player.new("bot#{bot}")}
   end
 
   def welcome
@@ -20,20 +20,18 @@ class Game
   puts r3
   end
 
-  def kill_player(player)
-    @enemies.delete(player)
-  end
-
   def is_still_ongoing?
    @humanplayer.life_points.positive? && @enemies.length.positive?
   end
 
    def show_players
-    puts "Le joueur #{@human_player.name} a #{@human_player.life_points} points de vie."
+    puts "Le joueur #{@humanplayer.name} a #{@humanplayer.life_points} points de vie."
     puts "Il reste #{@enemies.size} ennemis. "    
   end
 
   def combat_menu
+  puts
+  puts '-------------------------------'
   puts 'Quelle action veux-tu effecter ?'
   puts
   puts 'a - chercher une meilleure arme'
@@ -47,8 +45,9 @@ class Game
   print '> '
 end
 
-def combat_input(input)
+def combat_input
   input = gets.chomp
+  puts
   if input.downcase == 'a'
     @humanplayer.search_weapon
   elsif input.downcase == 's'
@@ -58,13 +57,24 @@ def combat_input(input)
   else puts 'Petit malin !'
        combat_menu
   end
-  @enemies
+end
+
+def kill_player
+  puts 
+  #---------Supprimer les bots morts de l'array ----#
+  @enemies.reject! { |bot| bot.life_points <= 0 }
+  @enemies.compact
 end
 
   def combat_defense
     puts
     puts 'Les ennemies attaquent !'
     @enemies.each { |bot| bot.attacks(@humanplayer) }
+    puts puts '-------------------------------'
+    @humanplayer.show_state
+    puts 
+    puts 
+    puts "~~~~~~~~~~~~FIN DU TOUR~~~~~~~~~~~~~~"
   end
 
   def end_game
