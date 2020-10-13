@@ -12,7 +12,7 @@ def human_battle
   enemies = initialize_enemies
 
   # ----------------COMBAT---------------------#
-  while user1.life_points.positive? && enemies.length.positive?
+  while is_still_ongoing?(user1, *enemies)
     enemies = combat_attack(user1, *enemies)
     user1 = combat_defense(user1, *enemies)
     puts
@@ -100,6 +100,11 @@ def combat_input(user1, *enemies)
        combat_menu(*enemies)
   end
   enemies
+end
+
+def is_still_ongoing?(user1, *enemies)
+  false
+  true if user1.life_points.positive? && enemies.length.positive?
 end
 
 human_battle
