@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'bundler'
 Bundler.require
@@ -5,7 +6,7 @@ Bundler.require
 require_relative 'lib/game'
 require_relative 'lib/player'
 
-def full_game 
+def full_game
   puts 'Rentre ton pseudo :'
   print '> '
   player_name = gets.chomp
@@ -20,9 +21,6 @@ def full_game
     new_game.combat_defense
   end
   new_game.end_game
-
 end
 
-
 full_game
-
