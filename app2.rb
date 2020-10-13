@@ -11,8 +11,8 @@ def human_battle
 
   # ----------------COMBAT---------------------#
   while user1.life_points > 0 && enemies.length > 0
-    show_states(user1, *enemies)
-    enemies = combat_turn(user1, *enemies)
+    enemies = combat_attack(user1, *enemies)
+    user1 = combat_defense(user1, *enemies)
     puts
   end
 
@@ -56,11 +56,20 @@ def show_states(user1, *enemies)
   enemies.each { |bot| bot.show_state }
 end
 
-def combat_turn(user1, *enemies)
-  user1.attacks(enemies.sample)
+def combat_attack(user1, *enemies)
+  puts "-------------------------------"
+  user1.show_state
+  combat_menu(*enemies)
+  enemies = combat_input(user1, *enemies)
   enemies.reject! { |bot| bot.life_points <= 0 }
-  enemies.compact
+  enemies.compact  
+end
+
+def combat_defense(user1, *enemies)
+  puts 
+  puts "Les ennemies attaquent !"
   enemies.each { |bot| bot.attacks(user1) }
+  user1
 end
 
 def combat_menu(*enemies)
@@ -70,10 +79,26 @@ def combat_menu(*enemies)
   puts "s - chercher à se soigner"
   puts
   puts "attaquer un ennemi en vue :"
-  enemies.each { |bot, i = 0| puts "#{i} - #{bot.show_state}" }
+  enemies.each.with_index do |bot, idx|
+    puts "#{idx}" + "- #{bot.show_state}" 
+  end
+  puts "-------------------------------"
+  print "> "
 end
 
-
+def combat_input(user1, *enemies)
+  input = gets.chomp
+  if input.downcase == "a"
+    user1.search_weapon
+  elsif input.downcase == "s"
+    user1.search_health_pack
+  elsif (0...enemies.length).include?(input.to_i)
+    user1.attacks(enemies[input.to_i])  
+  else puts "Petit malin"
+    combat_menu(*enemies)
+  end
+  enemies
+end
 human_battle
 
 

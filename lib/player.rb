@@ -7,7 +7,7 @@ attr_accessor :name, :life_points
   end
 
   def show_state
-    puts "#{@name} a #{@life_points} points de vie."
+    "#{@name} a #{@life_points} points de vie."
   end
 
   def get_damage(num)
