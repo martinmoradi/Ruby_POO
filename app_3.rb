@@ -11,12 +11,12 @@ def full_game
   player_name = gets.chomp
   new_game = Game.new(player_name)
   new_game.welcome
-  new_game.show_players
 
   while new_game.is_still_ongoing?
+    new_game.show_players
+    new_game.new_players_in_sight
     new_game.combat_menu
     new_game.combat_input
-    new_game.kill_player
     new_game.combat_defense
   end
   new_game.end_game
